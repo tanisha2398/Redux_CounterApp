@@ -1,5 +1,4 @@
-const redux = require("redux");
-const createStore = redux.createStore;
+import redux, { createStore } from "redux";
 const initialState = {
   counter: 0
 };
