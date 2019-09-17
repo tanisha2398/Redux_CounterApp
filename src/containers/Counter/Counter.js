@@ -64,6 +64,19 @@ class Counter extends Component {
             </li>
           ))}
         </ul>
+        <hr />
+        <button onClick={this.props.onAddPerson}>Add Person</button>
+        <div>
+          {this.props.persons.map(person => (
+            <div
+              key={person.id}
+              onClick={() => this.props.onDeletePerson(person.id)}
+            >
+              {person.name}
+              {person.age}
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
@@ -72,7 +85,8 @@ class Counter extends Component {
 const mapStateToProps = state => {
   return {
     ctr: state.ctr.counter,
-    storedResults: state.res.results
+    storedResults: state.res.results,
+    persons: state.res.persons
   };
 };
 
@@ -85,7 +99,9 @@ const mapDispatchToProps = dispatch => {
     onStoreResult: result =>
       dispatch({ type: actionTypes.STORE_RESULT, result: result }),
     onDeleteResult: id =>
-      dispatch({ type: actionTypes.DELETE_RESULT, resultElId: id })
+      dispatch({ type: actionTypes.DELETE_RESULT, resultElId: id }),
+    onAddPerson: () => dispatch({ type: "ADD_PERSON" }),
+    onDeletePerson: id => dispatch({ type: "DELETE_PERSON", id: id })
   };
 };
 export default connect(

@@ -1,6 +1,7 @@
 import * as actionTypes from "../actions";
 const initialState = {
-  results: []
+  results: [],
+  persons: []
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -16,6 +17,21 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         results: newArray
+      };
+    case "ADD_PERSON":
+      const newPerson = {
+        id: Math.random(),
+        name: "Tanisha",
+        age: Math.floor(Math.random() * 40)
+      };
+      return {
+        ...state,
+        persons: state.persons.concat(newPerson)
+      };
+    case "DELETE_PERSON":
+      return {
+        ...state,
+        persons: state.persons.filter(person => person.id !== action.id)
       };
   }
   return state;
