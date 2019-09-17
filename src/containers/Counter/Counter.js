@@ -5,7 +5,9 @@ import CounterOutput from "../../components/CounterOutput/CounterOutput";
 import * as actionTypes from "../../store/actions";
 class Counter extends Component {
   state = {
-    counter: 0
+    counter: 0,
+    name: "",
+    age: ""
   };
 
   counterChangedHandler = (action, value) => {
@@ -32,7 +34,13 @@ class Counter extends Component {
         break;
     }
   };
+  onHandleName = event => {
+    this.setState({ name: event.target.value });
+  };
 
+  onHandleAge = event => {
+    this.setState({ age: event.target.value });
+  };
   render() {
     return (
       <div>
@@ -65,8 +73,27 @@ class Counter extends Component {
           ))}
         </ul>
         <hr />
-        <button onClick={this.props.onAddPerson}>Add Person</button>
+
         <div>
+          <input
+            type="text"
+            placeholder="name"
+            onChange={this.onHandleName}
+            value={this.state.name}
+          />
+          <input
+            type="number"
+            placeholder="age"
+            onChange={this.onHandleAge}
+            value={this.state.age}
+          />
+          <button
+            onClick={() =>
+              this.props.onAddPerson(this.state.name, this.state.age)
+            }
+          >
+            Add Person
+          </button>
           {this.props.persons.map(person => (
             <div
               key={person.id}
@@ -95,12 +122,17 @@ const mapDispatchToProps = dispatch => {
     onIncrementCounter: () => dispatch({ type: actionTypes.INCREMENT }),
     onDecrementCounter: () => dispatch({ type: actionTypes.DECREMENT }),
     onAddCounter: () => dispatch({ type: actionTypes.ADD, val: 10 }),
+
     onSubtractCounter: () => dispatch({ type: actionTypes.SUBTRACT, val: 15 }),
     onStoreResult: result =>
       dispatch({ type: actionTypes.STORE_RESULT, result: result }),
     onDeleteResult: id =>
       dispatch({ type: actionTypes.DELETE_RESULT, resultElId: id }),
-    onAddPerson: () => dispatch({ type: "ADD_PERSON" }),
+    onAddPerson: (name, age) =>
+      dispatch({
+        type: "ADD_PERSON",
+        personData: { name: name, age: age }
+      }),
     onDeletePerson: id => dispatch({ type: "DELETE_PERSON", id: id })
   };
 };
