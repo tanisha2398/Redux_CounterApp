@@ -1,7 +1,14 @@
 import * as actionTypes from "../actions/actions";
+import { updateObject } from "../utility";
 const initialState = {
   results: [],
   persons: []
+};
+const deleteResult = (state, action) => {
+  const newArray = state.results.filter(
+    result => result.id !== action.resultElId
+  );
+  return updateObject(state, { results: newArray });
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -14,13 +21,8 @@ const reducer = (state = initialState, action) => {
         })
       };
     case actionTypes.DELETE_RESULT:
-      const newArray = state.results.filter(
-        result => result.id !== action.resultElId
-      );
-      return {
-        ...state,
-        results: newArray
-      };
+      return deleteResult(state, action);
+
     case "ADD_PERSON":
       const newPerson = {
         id: Math.random(),
